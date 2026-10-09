@@ -257,7 +257,7 @@
 
       const { data: liqData, error: liqError } = await supabaseClient
         .from('liquidations')
-        .select('*')
+        .select('*') 
         .order('submitted_at', { ascending: false });
 
       if (liqError) throw liqError;
