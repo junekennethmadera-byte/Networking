@@ -1,0 +1,782 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liquidation Flow — Cash Advance System</title>
+  <style>
+    :root{--ink:#14213d;--muted:#718096;--line:#e8edf5;--blue:#2563eb;--navy:#172554;--green:#15946b;--amber:#d58b12;--red:#d94b55;--paper:#f5f7fb;--white:#fff;}
+    *{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.5 Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif} button,input,select,textarea{font:inherit} button{cursor:pointer;border:0}
+    .shell{display:flex;min-height:100vh}.sidebar{width:250px;background:var(--navy);color:#d8e2ff;padding:27px 17px;position:fixed;inset:0 auto 0 0}.brand{display:flex;gap:11px;align-items:center;color:#fff;font-weight:800;font-size:18px;margin:0 10px 45px}.brand-mark{height:33px;width:33px;border-radius:10px;background:#4f8cff;display:grid;place-items:center;font-size:18px}.nav-label{text-transform:uppercase;letter-spacing:.12em;font-size:10px;color:#8da1cf;padding:0 12px;margin-bottom:10px}.nav a{display:flex;align-items:center;gap:12px;padding:11px 13px;border-radius:9px;color:#bbc9e8;text-decoration:none;margin:3px 0}.nav a.active,.nav a:hover{background:rgba(111,151,255,.18);color:#fff}.nav-icon{width:20px;text-align:center}.sidebar-bottom{position:absolute;bottom:22px;left:23px;right:23px;border-top:1px solid #31416c;padding-top:17px;color:#8fa2ca;font-size:12px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#43d39e;margin-right:7px}
+    main{margin-left:250px;flex:1;min-width:0}.topbar{height:73px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 37px}.crumb{color:var(--muted);font-size:13px}.crumb strong{color:var(--ink)}.role{display:flex;align-items:center;gap:12px}.role select{border:1px solid var(--line);border-radius:8px;padding:9px 12px;color:var(--ink);background:#fff}.avatar{width:35px;height:35px;border-radius:50%;background:#e7efff;color:var(--blue);display:grid;place-items:center;font-weight:800}.content{max-width:1400px;margin:auto;padding:31px 37px 60px}.title-row{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:26px}.eyebrow{text-transform:uppercase;letter-spacing:.13em;font-weight:800;font-size:11px;color:var(--blue);margin:0 0 5px}.title-row h1{font-size:29px;line-height:1.15;margin:0 0 7px;letter-spacing:-.03em}.subtitle{color:var(--muted);margin:0}.primary{background:var(--blue);color:#fff;padding:11px 17px;border-radius:8px;font-weight:700;box-shadow:0 5px 12px #2563eb26}.primary:hover{background:#1d4ed8}.outline{background:#fff;color:var(--ink);border:1px solid var(--line);padding:10px 15px;border-radius:8px;font-weight:700}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:27px}.stat,.card{background:#fff;border:1px solid var(--line);border-radius:12px}.stat{padding:18px 20px;display:flex;justify-content:space-between;align-items:flex-start}.stat small{color:var(--muted);font-size:12px}.stat strong{display:block;font-size:27px;margin-top:2px}.stat-icon{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:17px}.blue{background:#eaf1ff;color:#3d74df}.yellow{background:#fff6dc;color:#c78a10}.redbg{background:#ffeaec;color:#d54f59}.green{background:#e5f8f1;color:#11936a}.grid{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(300px,.85fr);gap:21px}.card-header{padding:18px 20px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.card-header h2{font-size:16px;margin:0}.card-header span{font-size:12px;color:var(--muted)}.table-wrap{overflow:auto}.table{border-collapse:collapse;width:100%;min-width:680px}.table th{text-align:left;color:#8a96aa;font-size:11px;text-transform:uppercase;letter-spacing:.06em;font-weight:800;background:#fbfcfe}.table th,.table td{padding:13px 20px;border-bottom:1px solid #f0f2f7;white-space:nowrap}.table tr:last-child td{border:0}.table td{font-size:13px}.person{display:flex;gap:10px;align-items:center}.person b{display:block;font-size:13px}.person small{color:var(--muted);font-size:11px}.mini-avatar{width:29px;height:29px;border-radius:50%;background:#e9edfa;display:grid;place-items:center;font-size:10px;font-weight:800;color:#4f64a2}.amount{font-weight:800}.status{display:inline-flex;align-items:center;gap:6px;border-radius:20px;padding:5px 9px;font-size:11px;font-weight:700}.status:before{content:"";width:6px;height:6px;border-radius:50%;background:currentColor}.pending{color:#b4780a;background:#fff6dc}.approved{color:#2367dc;background:#eaf1ff}.unliquidated{color:#b4780a;background:#fff6dc}.overdue{color:#cf4651;background:#ffeaec}.review{color:#7c52c8;background:#f0eaff}.liquidated{color:#118a65;background:#e5f8f1}.recorded{color:#50637c;background:#eef2f6}.action{color:var(--blue);background:none;font-weight:700;font-size:12px}.timeline{padding:21px 23px 15px}.step{display:flex;gap:14px;position:relative;padding-bottom:24px}.step:last-child{padding-bottom:0}.step:not(:last-child):after{content:"";position:absolute;left:11px;top:25px;width:1px;height:calc(100% - 12px);background:#dfe7f3}.step-bullet{z-index:1;width:24px;height:24px;border-radius:50%;display:grid;place-items:center;background:#e5eaf5;color:#8998b1;font-size:11px;font-weight:800;border:3px solid #fff;box-shadow:0 0 0 1px #dfe7f3}.step.done .step-bullet{background:var(--green);color:#fff;box-shadow:0 0 0 1px var(--green)}.step.current .step-bullet{background:var(--blue);color:#fff;box-shadow:0 0 0 4px #dce8ff}.step h3{font-size:13px;margin:1px 0 3px}.step p{font-size:11px;color:var(--muted);margin:0}.notice{margin:0 20px 20px;padding:12px;background:#f0f6ff;border-radius:8px;color:#476083;font-size:12px}.notice b{color:var(--blue)}.section{margin-top:21px}.activity{padding:5px 20px}.activity-item{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid #f0f2f7}.activity-item:last-child{border:0}.activity-icon{height:29px;width:29px;border-radius:50%;display:grid;place-items:center;background:#eaf1ff;color:var(--blue);font-size:12px}.activity p{margin:0;font-size:12px}.activity small{color:var(--muted);font-size:11px}.empty{color:var(--muted);text-align:center;padding:35px}
+    .modal{display:none;position:fixed;inset:0;background:#10204b66;z-index:5;padding:30px;overflow:auto}.modal.open{display:grid;place-items:center}.modal-box{background:#fff;border-radius:14px;width:min(600px,100%);box-shadow:0 25px 70px #08194230}.modal-head{padding:21px 24px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}.modal-head h2{margin:0;font-size:19px}.close{background:none;color:var(--muted);font-size:23px}.form{padding:23px;display:grid;grid-template-columns:1fr 1fr;gap:16px}.field{display:flex;flex-direction:column;gap:6px}.field.full{grid-column:1/-1}.field label{font-size:12px;font-weight:700}.field input,.field select,.field textarea{border:1px solid #dce3ef;border-radius:7px;padding:10px 11px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px #2563eb18}.form-actions{grid-column:1/-1;display:flex;justify-content:flex-end;gap:10px;padding-top:4px}.detail{padding:23px}.detail-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f2f7}.detail-row span:first-child{color:var(--muted);font-size:12px}.detail-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:20px}.toast{position:fixed;bottom:22px;right:22px;background:#172554;color:#fff;padding:13px 17px;border-radius:9px;box-shadow:0 10px 30px #08194230;display:none;z-index:10;font-size:13px}.toast.show{display:block}
+    @media(max-width:950px){.sidebar{width:70px;padding:22px 10px}.brand{margin:0 8px 45px}.brand span,.nav-label,.nav a span,.sidebar-bottom{display:none}.nav a{justify-content:center;padding:12px}.topbar,main{margin-left:70px}.topbar{padding:0 20px}.content{padding:25px 20px}.stats{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}
+    .auth-screen{min-height:100vh;background:linear-gradient(135deg,#172554 0%,#244b9b 100%);display:grid;place-items:center;padding:24px}.shell{display:none}.shell.authenticated{display:flex}.auth-card{width:min(440px,100%);background:#fff;border-radius:16px;box-shadow:0 25px 80px #07163866;overflow:hidden}.auth-brand{background:#f8faff;padding:28px 30px;border-bottom:1px solid var(--line)}.auth-brand .brand{color:var(--ink);margin:0 0 20px}.auth-brand h1{font-size:23px;margin:0 0 6px}.auth-brand p{color:var(--muted);margin:0;font-size:13px}.auth-tabs{display:flex;padding:18px 30px 0;gap:23px;border-bottom:1px solid var(--line)}.auth-tab{background:none;color:var(--muted);padding:0 0 12px;font-weight:700;border-bottom:2px solid transparent}.auth-tab.active{color:var(--blue);border-color:var(--blue)}.auth-form{padding:24px 30px 29px}.auth-form .field{margin-bottom:15px}.auth-form .primary{width:100%;margin-top:5px}.auth-note{font-size:11px;color:var(--muted);text-align:center;margin:17px 0 0}.password-hint{font-size:11px;color:var(--muted);margin-top:-8px}.logout{color:var(--muted);background:none;font-size:12px;font-weight:700;padding:7px}.logout:hover{color:var(--red)}
+    @media(max-width:600px){.topbar{height:auto;padding:15px 16px;gap:10px;align-items:flex-start}.crumb{display:none}.content{padding:22px 14px}.title-row{display:block}.title-row .primary{margin-top:17px}.stats{gap:10px}.stat{padding:14px}.stat strong{font-size:22px}.stat-icon{display:none}.form{grid-template-columns:1fr}.field.full{grid-column:auto}.form-actions{grid-column:auto}.role select{max-width:145px}}
+    /* Modern minimal UI refresh */
+    :root{--ink:#172033;--muted:#718096;--line:#e6ebf2;--blue:#2563eb;--navy:#111827;--paper:#f7f9fc}
+    body{background:var(--paper);color:var(--ink);font-size:14px}
+    .sidebar{width:228px;padding:24px 14px;background:#111827}
+    .brand{font-size:17px;margin:0 10px 42px;letter-spacing:-.02em}
+    .brand-mark{width:32px;height:32px;border-radius:9px;background:#3b82f6}
+    .nav-label{font-size:9px;color:#94a3b8;margin:0 10px 9px}
+    .nav a{padding:10px 12px;margin:2px 0;border-radius:8px;color:#aab7cd}
+    .nav a.active,.nav a:hover{background:#ffffff12;color:#fff}
+    main{margin-left:228px}
+    .topbar{height:68px;padding:0 34px;background:#fff}
+    .content{max-width:1380px;padding:34px 34px 56px}
+    .title-row{margin-bottom:24px}
+    .eyebrow{font-size:10px;letter-spacing:.14em}
+    .title-row h1{font-size:28px;letter-spacing:-.04em}
+    .subtitle{font-size:13px}
+    .primary{border-radius:9px;box-shadow:0 7px 16px #2563eb20}
+    .outline{border-radius:9px}
+    .stats{gap:14px;margin-bottom:22px}
+    .stat,.card{border-radius:14px;border-color:#e7ebf1;box-shadow:0 5px 18px #16213d08}
+    .stat{padding:17px 18px}
+    .stat strong{font-size:25px}
+    .card-header{padding:17px 19px}
+    .card-header h2{font-size:15px}
+    .table th,.table td{padding:12px 18px}
+    .timeline{padding:20px 21px 16px}
+    .notice{margin:0 18px 18px;border:1px solid #dbeafe}
+    .section{margin-top:18px}
+    .modal{background:#0f172a66;backdrop-filter:blur(3px)}
+    .modal-box{border-radius:16px;box-shadow:0 24px 70px #0f172a30}
+    .auth-screen{position:relative;isolation:isolate;overflow:hidden;background:linear-gradient(135deg,#eef5ff 0%,#f8fbff 48%,#eef2ff 100%);padding:28px}
+    .auth-screen:before,.auth-screen:after{content:"";position:absolute;z-index:-1;border-radius:50%;filter:blur(2px);pointer-events:none}
+    .auth-screen:before{width:520px;height:520px;top:-220px;right:-150px;background:radial-gradient(circle,#8db8ff66 0%,#8db8ff20 48%,transparent 72%)}
+    .auth-screen:after{width:460px;height:460px;bottom:-230px;left:-150px;background:radial-gradient(circle,#b6a3ff55 0%,#b6a3ff18 48%,transparent 72%)}
+    .auth-card{position:relative;width:min(450px,100%);border:1px solid #e5eaf1;border-radius:18px;box-shadow:0 20px 55px #18243b12}
+    .auth-brand{padding:30px 32px 25px;background:#fff}
+    .auth-brand .brand{margin:0 0 27px;color:var(--ink)}
+    .auth-brand h1{font-size:25px;letter-spacing:-.035em}
+    .auth-tabs{padding:0 32px;border-bottom:1px solid var(--line)}
+    .auth-tab{padding:0 0 14px}
+    .auth-form{padding:25px 32px 30px}
+    .auth-form .field{margin-bottom:17px}
+    .field input,.field select,.field textarea{border-radius:9px;padding:11px 12px;background:#fff}
+    .auth-form .primary{padding:12px;margin-top:7px}
+    .auth-note{line-height:1.45}
+    @media(max-width:950px){.sidebar{width:68px}.topbar,main{margin-left:68px}.topbar{padding:0 20px}.content{padding:25px 20px}}
+    @media(max-width:600px){.auth-screen{padding:14px}.auth-brand{padding:25px 24px 22px}.auth-form{padding:23px 24px 27px}.auth-tabs{padding:0 24px}.topbar{padding:14px 16px}.content{padding:22px 14px}}
+    /* Neon abstract login backdrop */
+    .auth-screen{background:#171653;}
+    .auth-screen:before{z-index:0!important;width:100%;height:100%;inset:0;border-radius:0;filter:none;background:radial-gradient(ellipse at 76% 52%,#165dff 0%,#1433d9 22%,transparent 43%),radial-gradient(ellipse at 62% 76%,#d916d8 0%,#6c25f0 18%,transparent 42%),radial-gradient(ellipse at 18% 20%,#8c24e8 0%,transparent 35%),linear-gradient(135deg,#17134f,#241b82 48%,#071d75);opacity:.95;pointer-events:none;}
+    .auth-screen:after{z-index:0!important;width:80%;height:27%;right:-8%;bottom:14%;left:auto;filter:none;border-radius:55% 0 0 55%;background:linear-gradient(150deg,transparent 8%,#123cff 25%,#0b7dff 43%,#eb19e8 62%,transparent 80%);opacity:.78;transform:rotate(-8deg);box-shadow:0 0 35px #304dff99,0 0 70px #dd20e866;pointer-events:none;}
+    .auth-screen>.auth-card{display:block!important;visibility:visible!important;opacity:1!important;position:relative;z-index:10!important;border:1px solid #ffffff2b;box-shadow:0 28px 90px #05052b99;}
+  </style>
+</head>
+<body>
+  <div class="auth-screen" id="authScreen">
+    <div class="auth-card">
+      <div class="auth-brand"><div class="brand"><div class="brand-mark">↗</div><span>Liquidation Flow</span></div><h1 id="authTitle">Welcome back</h1><p id="authSubtitle">Sign in to manage your cash advance workflow.</p></div>
+      <div class="auth-tabs"><button class="auth-tab active" id="loginTab">Log in</button><button class="auth-tab" id="registerTab" style="display:none">Create requester account</button></div>
+      <form class="auth-form" id="loginForm"><div class="field"><label>Email</label><input id="loginEmail" type="email" placeholder="name@example.com" required /></div><div class="field"><label>Password</label><input id="loginPassword" type="password" placeholder="Enter your password" required /></div><button type="button" id="forgotLink" onclick="document.getElementById('loginForm').style.display='none';document.getElementById('registerForm').style.display='none';document.getElementById('forgotForm').style.display='block'" style="display:block;background:none;color:var(--blue);font-size:12px;padding:8px 0 0;font-weight:700;margin:0 auto;text-align:center">Forgot password?</button><button type="button" id="registerHere" onclick="document.getElementById('loginForm').style.display='none';document.getElementById('forgotForm').style.display='none';document.getElementById('registerForm').style.display='block'" style="display:block;background:none;color:var(--blue);font-size:12px;padding:8px 0 0;font-weight:700;margin:0 auto;text-align:center">Register here</button><button class="primary" type="submit">Log in</button><p class="auth-note">Authorized users only. Your session is protected on this device.</p></form>
+      <form class="auth-form" id="registerForm" style="display:none"><div class="field"><label>Full name</label><input id="registerName" required placeholder="e.g. Maria Santos" /></div><div class="field"><label>Email</label><input id="registerEmail" type="email" required placeholder="name@example.com" /></div><div class="field"><label>Password</label><input id="registerPassword" type="password" minlength="6" required placeholder="At least 6 characters" /></div><div class="field"><label>Confirm password</label><input id="registerConfirm" type="password" minlength="6" required placeholder="Repeat your password" /></div><div class="field"><label>Committee / Organization</label><input id="registerCommittee" required placeholder="Your committee or organization" /></div><button class="primary" type="submit">Create requester account</button><p class="auth-note">New registrations are assigned the Requester role.</p></form>
+      <button type="button" id="registerBack" onclick="document.getElementById('registerForm').style.display='none';document.getElementById('loginForm').style.display='block'" style="display:none;background:none;color:var(--blue);font-size:12px;font-weight:700;margin:0 auto 20px">Back to log in</button>
+      <form class="auth-form" id="forgotForm" style="display:none"><div class="field"><label>Registered email</label><input id="forgotEmail" type="email" required placeholder="name@example.com" /></div><button class="primary" type="submit">Send reset link</button><button type="button" id="backToLogin" onclick="document.getElementById('forgotForm').style.display='none';document.getElementById('loginForm').style.display='block'" style="display:block;background:none;color:var(--blue);font-size:12px;font-weight:700;margin:14px auto 0">Back to log in</button><p class="auth-note">A secure password reset link will be sent by Supabase Auth.</p></form>
+      <form class="auth-form" id="recoveryForm" style="display:none"><div class="field"><label>New password</label><input id="recoveryPassword" type="password" minlength="6" required placeholder="At least 6 characters" /></div><div class="field"><label>Confirm new password</label><input id="recoveryConfirm" type="password" minlength="6" required placeholder="Repeat your new password" /></div><button class="primary" type="submit">Update password</button></form>
+    </div>
+  </div>
+  <div class="shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">↗</div><span>Liquidation Flow</span></div>
+      <div class="nav-label">Workspace</div>
+      <nav class="nav">
+        <a href="#" class="active"><i class="nav-icon">▦</i><span>Dashboard</span></a>
+        <a href="#requests"><i class="nav-icon">▤</i><span>Cash Advances</span></a>
+        <a href="#liquidations"><i class="nav-icon">▣</i><span>Liquidations</span></a>
+        <a href="#activity"><i class="nav-icon">◷</i><span>Activity Log</span></a>
+      </nav>
+      <div class="nav-label" style="margin-top:33px">Controls</div>
+      <nav class="nav"><a href="#"><i class="nav-icon">⚙</i><span>Settings</span></a><a href="#"><i class="nav-icon">?</i><span>Help center</span></a></nav>
+      <div class="sidebar-bottom"><span class="dot"></span>All systems operational<br><span style="margin-left:15px">v1.0 · Secure workspace</span></div>
+    </aside>
+    <main>
+      <header class="topbar"><div class="crumb">Workspace&nbsp; / &nbsp;<strong>Dashboard</strong></div><div class="role"><span style="color:var(--muted);font-size:12px" id="loggedInUser">Viewing as</span><select id="roleSelect" aria-label="Current role" disabled><option value="Treasurer">Treasurer</option><option value="Requester">Requester</option><option value="Financial Secretary">Financial Secretary</option></select><button class="logout" id="logoutBtn">Log out</button><div class="avatar">TR</div></div></header>
+      <div class="content">
+        <div class="title-row"><div><p class="eyebrow" id="workspaceLabel">Treasurer workspace</p><h1 id="greeting">Good morning, Treasurer.</h1><p class="subtitle">Here’s the current state of your cash advance workflow.</p></div><button class="primary" id="newRequest">＋ New cash advance</button></div>
+        <section class="stats"><div class="stat"><div><small>Active requests</small><strong id="activeCount">0</strong></div><div class="stat-icon blue">▤</div></div><div class="stat"><div><small>Pending approvals</small><strong id="pendingCount">0</strong></div><div class="stat-icon yellow">◷</div></div><div class="stat"><div><small>Unliquidated</small><strong id="unliquidatedCount">0</strong></div><div class="stat-icon redbg">₱</div></div><div class="stat"><div><small>Liquidated this month</small><strong id="liquidatedCount">0</strong></div><div class="stat-icon green">✓</div></div></section>
+        <div class="grid">
+          <section class="card" id="requests"><div class="card-header"><h2>Cash advance requests</h2><span id="requestCount">0 records</span></div><div class="table-wrap"><table class="table"><thead><tr><th>Requester</th><th>Purpose</th><th>Amount</th><th>Date</th><th>Status</th><th></th></tr></thead><tbody id="requestBody"></tbody></table></div></section>
+          <section class="card"><div class="card-header"><h2>Workflow progress</h2><span>Live process</span></div><div class="timeline"><div class="step done"><div class="step-bullet">✓</div><div><h3>Request submitted</h3><p>Requester completes the cash advance form</p></div></div><div class="step done"><div class="step-bullet">✓</div><div><h3>FinSec review</h3><p>First-level approval and validation</p></div></div><div class="step current"><div class="step-bullet">3</div><div><h3>CM final approval</h3><p>Routes automatically after FinSec approval</p></div></div><div class="step"><div class="step-bullet">4</div><div><h3>Treasurer disbursement</h3><p>Release funds and start 7-day clock</p></div></div><div class="step"><div class="step-bullet">5</div><div><h3>Liquidation &amp; recording</h3><p>Receipts reviewed and marked recorded</p></div></div></div><div class="notice"><b>Control enabled:</b> Requesters with an overdue cash advance cannot create a new request.</div></section>
+        </div>
+        <section class="card section" id="liquidations"><div class="card-header"><h2>Liquidation queue</h2><span>Receipts and reports needing action</span></div><div class="table-wrap"><table class="table"><thead><tr><th>Reference</th><th>Requester</th><th>Submitted</th><th>Documents</th><th>Status</th><th></th></tr></thead><tbody id="liquidationBody"></tbody></table></div></section>
+        <section class="card section" id="activity"><div class="card-header"><h2>Recent activity</h2><span>Latest system events</span></div><div class="activity" id="activityBody"></div></section>
+      </div>
+    </main>
+  </div>
+  <div class="modal" id="requestModal"><div class="modal-box"><div class="modal-head"><h2>New cash advance request</h2><button class="close" data-close>×</button></div><form class="form" id="requestForm"><div class="field"><label>Requester name</label><input name="name" placeholder="e.g. Maria Santos" required /></div><div class="field"><label>Amount (PHP)</label><input name="amount" type="number" min="1" placeholder="0.00" required /></div><div class="field full"><label>Purpose / activity</label><input name="purpose" placeholder="e.g. Youth conference transportation" required /></div><div class="field"><label>Needed by</label><input name="needed" type="date" required /></div><div class="field"><label>Fund / ministry</label><select name="fund"><option>General Fund</option><option>Mission Fund</option><option>Youth Ministry</option><option>Outreach</option></select></div><div class="field full"><label>Notes (optional)</label><textarea name="notes" rows="3" placeholder="Additional details for the approvers"></textarea></div><div class="form-actions"><button type="button" class="outline" data-close>Cancel</button><button type="submit" class="primary">Submit for approval</button></div></form></div></div>
+  <div class="modal" id="detailModal"><div class="modal-box"><div class="modal-head"><h2 id="detailTitle">Request details</h2><button class="close" data-close>×</button></div><div class="detail" id="detailContent"></div><div style="padding:0 23px 22px;display:grid;gap:10px">
+    <div><label style="font-size:12px;font-weight:700;display:block;margin-bottom:6px">Liquidation report *</label><input id="liquidationReport" type="file" accept=".pdf,image/*" /></div>
+    <div><label style="font-size:12px;font-weight:700;display:block;margin-bottom:6px">Receipts *</label><input id="receiptFiles" type="file" multiple accept="image/*,.pdf" /></div>
+    <div><label style="font-size:12px;font-weight:700;display:block;margin-bottom:6px">Total liquidated amount</label><input id="liquidationAmount" type="number" min="0" step="0.01" placeholder="0.00" /></div>
+    <div><label style="font-size:12px;font-weight:700;display:block;margin-bottom:6px">Remarks</label><textarea id="liquidationRemarks" rows="2" placeholder="Optional remarks"></textarea></div>
+  </div></div></div>
+  <div class="toast" id="toast"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    const SUPABASE_URL = 'https://rqvmvdplgordyjgvrhzj.supabase.co';
+    const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_I4gfCY247UeVMhTTlV8K5w_dPQsxmXy';
+    const supabaseClient = window.supabase.createClient(
+      SUPABASE_URL,
+      SUPABASE_PUBLISHABLE_KEY,
+      { auth: { persistSession: true, autoRefreshToken: true, detectSessionInUrl: true } }
+    );
+
+    const $ = s => document.querySelector(s);
+    const money = n => '₱' + Number(n || 0).toLocaleString('en-PH', {
+      minimumFractionDigits: 2
+    });
+
+    let currentUser = null;
+    let currentProfile = null;
+    let requests = [];
+    let liquidations = [];
+    let liquidationFiles = [];
+    let activity = [];
+
+    function roleName(role) {
+      return role === 'finsec' ? 'Financial Secretary' :
+             role === 'treasurer' ? 'Treasurer' : 'Requester';
+    }
+
+    function statusLabel(status) {
+      const map = {
+        pending_finsec_approval: 'Pending FinSec Approval',
+        approved_for_disbursement: 'Approved for Disbursement',
+        unliquidated_cash_advance: 'Unliquidated Cash Advance',
+        overdue_liquidation: 'Overdue Liquidation',
+        for_liquidation_approval: 'For Liquidation Approval',
+        liquidated: 'Liquidated',
+        for_voucher_recorded: 'For Voucher Recorded',
+        rejected: 'Rejected'
+      };
+      return map[status] || status;
+    }
+
+    function statusClass(status) {
+      if (status === 'overdue_liquidation') return 'overdue';
+      if (status === 'unliquidated_cash_advance') return 'unliquidated';
+      if (status === 'liquidated') return 'liquidated';
+      if (status === 'for_liquidation_approval') return 'review';
+      if (status === 'approved_for_disbursement' || status === 'for_voucher_recorded') return 'approved';
+      if (status === 'rejected') return 'overdue';
+      return 'pending';
+    }
+
+    function particularsList(value) {
+      if (Array.isArray(value)) return value;
+      if (typeof value === 'string') {
+        try { return JSON.parse(value); } catch { return value ? [value] : []; }
+      }
+      return [];
+    }
+
+    function newReference() {
+      const date = new Date().toISOString().slice(2, 10).replaceAll('-', '');
+      const suffix = crypto.randomUUID().replaceAll('-', '').slice(0, 6).toUpperCase();
+      return `CA-${date}-${suffix}`;
+    }
+
+    function show(t) {
+      $('#toast').textContent = t;
+      $('#toast').classList.add('show');
+      setTimeout(() => $('#toast').classList.remove('show'), 2800);
+    }
+
+    function roleGreeting() {
+      const role = roleName(currentProfile.role);
+      const displayName = currentProfile.full_name || currentUser.email.split('@')[0];
+      $('#workspaceLabel').textContent = role + ' workspace';
+      $('#greeting').textContent = 'Good morning, ' + displayName + '.';
+      $('#newRequest').style.display = currentProfile.role === 'requester' ? 'inline-block' : 'none';
+      $('#roleSelect').value = role;
+      $('#roleSelect').disabled = true;
+      $('#loggedInUser').textContent = displayName;
+      $('.avatar').textContent = displayName.split(' ').map(x => x[0]).slice(0, 2).join('').toUpperCase();
+    }
+
+    function authTab(register) {
+      $('#loginTab').classList.toggle('active', !register);
+      $('#registerTab').classList.toggle('active', register);
+      $('#loginForm').style.display = register ? 'none' : 'block';
+      $('#registerForm').style.display = register ? 'block' : 'none';
+      if ($('#registerBack')) $('#registerBack').style.display = register ? 'block' : 'none';
+      $('#forgotForm').style.display = 'none';
+      $('#recoveryForm').style.display = 'none';
+      $('#authTitle').textContent = register ? 'Create your requester account' : 'Welcome back';
+      $('#authSubtitle').textContent = register
+        ? 'Register to submit and track cash advance requests.'
+        : 'Sign in to manage your cash advance workflow.';
+    }
+
+    function showForgot() {
+      $('#loginForm').style.display = 'none';
+      $('#registerForm').style.display = 'none';
+      $('#forgotForm').style.display = 'block';
+      $('#recoveryForm').style.display = 'none';
+      $('#loginTab').classList.remove('active');
+      $('#registerTab').classList.remove('active');
+      $('#authTitle').textContent = 'Reset your password';
+      $('#authSubtitle').textContent = 'We will send a secure password reset link to your email.';
+    }
+
+    function showRecovery() {
+      $('#loginForm').style.display = 'none';
+      $('#registerForm').style.display = 'none';
+      $('#forgotForm').style.display = 'none';
+      $('#recoveryForm').style.display = 'block';
+      $('#loginTab').classList.remove('active');
+      $('#registerTab').classList.remove('active');
+      $('#authTitle').textContent = 'Set a new password';
+      $('#authSubtitle').textContent = 'Choose a new password for your account.';
+    }
+
+    async function loadProfile() {
+      const { data, error } = await supabaseClient
+        .from('profiles')
+        .select('*')
+        .eq('id', currentUser.id)
+        .single();
+
+      if (error) throw error;
+      currentProfile = data;
+      if (!currentProfile.is_active) throw new Error('This account is inactive.');
+    }
+
+    async function loadData() {
+      const { data: requestData, error: requestError } = await supabaseClient
+        .from('cash_advance_requests')
+        .select('*')
+        .order('submitted_at', { ascending: false });
+
+      if (requestError) throw requestError;
+      requests = requestData || [];
+
+      const { data: liqData, error: liqError } = await supabaseClient
+        .from('liquidations')
+        .select('*')
+        .order('submitted_at', { ascending: false });
+
+      if (liqError) throw liqError;
+      liquidations = liqData || [];
+
+      const { data: fileData, error: fileError } = await supabaseClient
+        .from('liquidation_files')
+        .select('id, liquidation_id, file_name, storage_path')
+        .order('uploaded_at', { ascending: false });
+
+      if (fileError) throw fileError;
+      liquidationFiles = fileData || [];
+
+      const { data: activityData, error: activityError } = await supabaseClient
+        .from('audit_logs')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(8);
+
+      if (!activityError) activity = activityData || [];
+    }
+
+    function canViewRequest(r) {
+      if (currentProfile.role === 'requester') return r.requester_id === currentUser.id;
+      return true;
+    }
+
+    function render() {
+      const visible = requests.filter(canViewRequest);
+      const pending = visible.filter(r =>
+        r.status === 'pending_finsec_approval' || r.status === 'for_liquidation_approval'
+      ).length;
+      const unliq = visible.filter(r =>
+        r.status === 'unliquidated_cash_advance' || r.status === 'overdue_liquidation'
+      ).length;
+      const currentMonth = new Date();
+      const liq = visible.filter(r => {
+        if (r.status !== 'liquidated') return false;
+        const d = new Date(r.liquidated_at || r.updated_at);
+        return d.getMonth() === currentMonth.getMonth() &&
+               d.getFullYear() === currentMonth.getFullYear();
+      }).length;
+
+      $('#activeCount').textContent = visible.filter(r => !['liquidated', 'for_voucher_recorded'].includes(r.status)).length;
+      $('#pendingCount').textContent = pending;
+      $('#unliquidatedCount').textContent = unliq;
+      $('#liquidatedCount').textContent = liq;
+      $('#requestCount').textContent = visible.length + ' records';
+
+      $('#requestBody').innerHTML = visible.length ? visible.map(r => `
+        <tr>
+          <td>
+            <div class="person">
+              <div class="mini-avatar">${(r.requester_name || '?').split(' ').map(x => x[0]).slice(0,2).join('')}</div>
+              <div><b>${escapeHtml(r.requester_name)}</b><small>${escapeHtml(r.reference_no)}</small></div>
+            </div>
+          </td>
+          <td>${escapeHtml(r.account_title_other || r.account_title)}</td>
+          <td class="amount">${money(r.amount)}</td>
+          <td>${formatDate(r.submitted_at)}</td>
+          <td><span class="status ${statusClass(r.status)}">${statusLabel(r.status)}</span></td>
+          <td><button class="action" data-id="${r.id}">View</button></td>
+        </tr>
+      `).join('') : '<tr><td colspan="6" class="empty">No cash advance records found.</td></tr>';
+
+      let queue = visible.filter(r => [
+        'for_liquidation_approval',
+        'unliquidated_cash_advance',
+        'overdue_liquidation'
+      ].includes(r.status));
+
+      if (currentProfile.role === 'requester') {
+        queue = visible.filter(r => ['unliquidated_cash_advance','overdue_liquidation','for_liquidation_approval'].includes(r.status));
+      }
+
+      $('#liquidationBody').innerHTML = queue.length ? queue.map(r => {
+        const liq = liquidations.find(x => x.cash_advance_id === r.id);
+        const docs = liq ? liquidationFiles.filter(x => x.liquidation_id === liq.id).length : 0;
+        const action = r.status === 'for_liquidation_approval' && currentProfile.role === 'finsec'
+          ? 'Review'
+          : (currentProfile.role === 'requester' ? 'View' : 'View');
+        return `
+          <tr>
+            <td><b>${escapeHtml(r.reference_no)}</b><br><small style="color:var(--muted)">${escapeHtml(r.account_title)}</small></td>
+            <td>${escapeHtml(r.requester_name)}</td>
+            <td>${formatDate(r.submitted_at)}</td>
+            <td>${docs} record${docs === 1 ? '' : 's'}</td>
+            <td><span class="status ${statusClass(r.status)}">${statusLabel(r.status)}</span></td>
+            <td><button class="action" data-id="${r.id}">${action}</button></td>
+          </tr>`;
+      }).join('') : '<tr><td colspan="6" class="empty">No liquidation items in the queue.</td></tr>';
+
+      $('#activityBody').innerHTML = activity.slice(0, 5).map(a => `
+        <div class="activity-item">
+          <div class="activity-icon">✓</div>
+          <div><p>${escapeHtml(a.action)}</p><small>${formatDate(a.created_at)}</small></div>
+        </div>
+      `).join('') || '<div class="empty">No activity yet.</div>';
+    }
+
+    function escapeHtml(v) {
+      return String(v ?? '').replace(/[&<>"']/g, c => ({
+        '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'
+      }[c]));
+    }
+
+    function formatDate(v) {
+      if (!v) return '—';
+      return new Date(v).toLocaleDateString('en-PH', { month:'short', day:'numeric', year:'numeric' });
+    }
+
+    async function logAction(action, entityType, entityId, metadata = {}) {
+      const { error } = await supabaseClient.from('audit_logs').insert({
+        user_id: currentUser.id,
+        action,
+        entity_type: entityType,
+        entity_id: entityId,
+        metadata
+      });
+      if (error) console.warn('Audit log:', error.message);
+    }
+
+    async function openDetail(id) {
+      const r = requests.find(x => x.id === id);
+      if (!r) return;
+
+      const liq = liquidations.find(x => x.cash_advance_id === id);
+      let actions = '';
+
+      if (currentProfile.role === 'finsec' && r.status === 'pending_finsec_approval') {
+        actions += '<button class="primary" data-action="finsecApprove">Approve</button>';
+        actions += '<button class="outline" data-action="reject">Reject</button>';
+      }
+
+      if (currentProfile.role === 'treasurer' && r.status === 'approved_for_disbursement') {
+        actions += '<button class="primary" data-action="release">Release funds</button>';
+      }
+
+      if (currentProfile.role === 'requester' &&
+          ['unliquidated_cash_advance','overdue_liquidation'].includes(r.status)) {
+        actions += '<button class="primary" data-action="submitLiquidation">Submit liquidation</button>';
+      }
+
+      if (currentProfile.role === 'finsec' && r.status === 'for_liquidation_approval') {
+        actions += '<button class="primary" data-action="approveLiquidation">Approve liquidation</button>';
+        actions += '<button class="outline" data-action="rejectLiquidation">Reject liquidation</button>';
+      }
+
+      if (currentProfile.role === 'treasurer' && r.status === 'liquidated') {
+        actions += '<button class="primary" data-action="record">Mark as recorded</button>';
+      }
+
+      $('#detailTitle').textContent = r.reference_no + ' · Request details';
+      $('#detailContent').innerHTML = `
+        <div class="detail-row"><span>Requester</span><b>${escapeHtml(r.requester_name)}</b></div>
+        <div class="detail-row"><span>Email</span><b>${escapeHtml(r.requester_email)}</b></div>
+        <div class="detail-row"><span>Position</span><b>${escapeHtml(r.position || '—')}</b></div>
+        <div class="detail-row"><span>Account title</span><b>${escapeHtml(r.account_title_other || r.account_title)}</b></div>
+        <div class="detail-row"><span>Particulars</span><b>${escapeHtml(particularsList(r.particulars).join(', '))}</b></div>
+        <div class="detail-row"><span>Amount</span><b>${money(r.amount)}</b></div>
+        <div class="detail-row"><span>Needed by</span><b>${escapeHtml(r.needed_by || '—')}</b></div>
+        <div class="detail-row"><span>Status</span><span class="status ${statusClass(r.status)}">${statusLabel(r.status)}</span></div>
+        <div class="detail-row"><span>Liquidation deadline</span><b>${r.liquidation_deadline || '—'}</b></div>
+        ${liq ? `<div class="detail-row"><span>Liquidation amount</span><b>${money(liq.total_liquidated_amount)}</b></div>` : ''}
+        <div class="detail-actions">${actions || '<span style="color:var(--muted);font-size:12px">No action required from this role.</span>'}</div>
+      `;
+      $('#detailContent').dataset.id = id;
+      $('#detailModal').classList.add('open');
+    }
+
+    async function workflow(id, action) {
+      const r = requests.find(x => x.id === id);
+      if (!r) return;
+
+      try {
+        if (action === 'finsecApprove') {
+          const { error } = await supabaseClient
+            .from('cash_advance_requests')
+            .update({
+              status: 'approved_for_disbursement',
+              finsec_approved_at: new Date().toISOString(),
+              approved_by_finsec: currentUser.id
+            })
+            .eq('id', id);
+          if (error) throw error;
+          await logAction('FinSec approved cash advance ' + r.reference_no, 'cash_advance', id);
+          show('Approved for disbursement — Treasurer notified');
+        }
+
+        if (action === 'reject') {
+          const { error } = await supabaseClient
+            .from('cash_advance_requests')
+            .update({ status: 'rejected' })
+            .eq('id', id);
+          if (error) throw error;
+          await logAction('Request rejected: ' + r.reference_no, 'cash_advance', id);
+          show('Request rejected');
+        }
+
+        if (action === 'release') {
+          const { error } = await supabaseClient
+            .from('cash_advance_requests')
+            .update({
+              status: 'unliquidated_cash_advance',
+              disbursed_at: new Date().toISOString()
+            })
+            .eq('id', id);
+          if (error) throw error;
+          await logAction('Funds disbursed for ' + r.reference_no, 'cash_advance', id);
+          show('Funds released. Requester has 7 days to liquidate.');
+        }
+
+        if (action === 'submitLiquidation') {
+          const receiptInput = $('#receiptFiles');
+          const reportInput = $('#liquidationReport');
+          if (!receiptInput.files.length || !reportInput.files.length) {
+            show('At least one receipt and one liquidation report are required');
+            return;
+          }
+
+          const { data: liq, error: liqError } = await supabaseClient
+            .from('liquidations')
+            .insert({
+              cash_advance_id: id,
+              submitted_by: currentUser.id,
+              total_liquidated_amount: Number($('#liquidationAmount').value || r.amount),
+              remarks: $('#liquidationRemarks').value || null
+            })
+            .select()
+            .single();
+
+          if (liqError) throw liqError;
+
+          const files = [...receiptInput.files, ...reportInput.files];
+          for (const file of files) {
+            const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+            const path = `${currentUser.id}/${id}/${liq.id}/${crypto.randomUUID()}-${safeName}`;
+            const { error: uploadError } = await supabaseClient.storage
+              .from('cash-advance-documents')
+              .upload(path, file, { upsert: false });
+            if (uploadError) throw uploadError;
+
+            const { error: fileRowError } = await supabaseClient
+              .from('liquidation_files')
+              .insert({
+                liquidation_id: liq.id,
+                file_name: file.name,
+                storage_path: path,
+                file_type: file.type,
+                uploaded_by: currentUser.id
+              });
+            if (fileRowError) throw fileRowError;
+          }
+
+          const { error: statusError } = await supabaseClient
+            .from('cash_advance_requests')
+            .update({ status: 'for_liquidation_approval' })
+            .eq('id', id);
+          if (statusError) throw statusError;
+
+          await logAction('Liquidation submitted for ' + r.reference_no, 'liquidation', liq.id);
+          show('Liquidation submitted — FinSec has been notified');
+        }
+
+        if (action === 'approveLiquidation' || action === 'rejectLiquidation') {
+          const liq = liquidations.find(x => x.cash_advance_id === id);
+          if (!liq) throw new Error('Liquidation record not found.');
+
+          const approved = action === 'approveLiquidation';
+          const { error: liqUpdateError } = await supabaseClient
+            .from('liquidations')
+            .update({
+              status: approved ? 'approved' : 'rejected',
+              approved_by_finsec: currentUser.id,
+              approved_at: approved ? new Date().toISOString() : null
+            })
+            .eq('id', liq.id);
+          if (liqUpdateError) throw liqUpdateError;
+
+          const { error: caError } = await supabaseClient
+            .from('cash_advance_requests')
+            .update({
+              status: approved ? 'liquidated' : 'rejected',
+              liquidated_at: approved ? new Date().toISOString() : null
+            })
+            .eq('id', id);
+          if (caError) throw caError;
+
+          await logAction(
+            (approved ? 'Liquidation approved: ' : 'Liquidation rejected: ') + r.reference_no,
+            'liquidation',
+            liq.id
+          );
+          show(approved ? 'Liquidation approved — Treasurer notified' : 'Liquidation rejected');
+        }
+
+        if (action === 'record') {
+          const { error } = await supabaseClient
+            .from('cash_advance_requests')
+            .update({ status: 'for_voucher_recorded' })
+            .eq('id', id);
+          if (error) throw error;
+          await logAction('Request marked as recorded: ' + r.reference_no, 'cash_advance', id);
+          show('Request marked as recorded');
+        }
+
+        $('#detailModal').classList.remove('open');
+        await loadData();
+        render();
+      } catch (error) {
+        console.error(error);
+        show(error.message || 'Unable to complete this action');
+      }
+    }
+
+    async function createRequest(e) {
+      e.preventDefault();
+      if (currentProfile.role !== 'requester') {
+        show('Only Requesters can create cash advances');
+        return;
+      }
+
+      const f = new FormData(e.target);
+      const choices = [...document.querySelectorAll('input[name="particulars"]:checked')].map(x => x.value);
+      if (!choices.length) {
+        show('Please select at least one Particulars option');
+        return;
+      }
+
+      const { data, error } = await supabaseClient
+        .from('cash_advance_requests')
+        .insert({
+          reference_no: newReference(),
+          requester_id: currentUser.id,
+          requester_name: f.get('name'),
+          requester_email: f.get('email'),
+          position: f.get('position') || null,
+          account_title: f.get('account'),
+          account_title_other: f.get('account') === 'Others' ? f.get('otherAccount') : null,
+          particulars: choices,
+          particulars_other: f.get('particularsOther') || null,
+          amount: Number(f.get('amount')),
+          needed_by: f.get('needed'),
+          notes: f.get('notes') || null,
+          status: 'pending_finsec_approval'
+        })
+        .select()
+        .single();
+
+      if (error) {
+        show(error.message.includes('overdue') ? 'You have an overdue liquidation and cannot create a new request.' : error.message);
+        return;
+      }
+
+      await logAction('Cash advance submitted: ' + data.reference_no, 'cash_advance', data.id);
+      e.target.reset();
+      $('#requestModal').classList.remove('open');
+      show('Request submitted — FinSec has been notified');
+      await loadData();
+      render();
+    }
+
+    async function signOut() {
+      await supabaseClient.auth.signOut();
+      currentUser = null;
+      currentProfile = null;
+      $('.shell').classList.remove('authenticated');
+      $('#authScreen').style.display = 'grid';
+      authTab(false);
+    }
+
+    async function initAuthenticated(session) {
+      currentUser = session.user;
+      await loadProfile();
+      await loadData();
+      $('#authScreen').style.display = 'none';
+      $('.shell').classList.add('authenticated');
+      roleGreeting();
+      render();
+    }
+
+    $('#loginTab').onclick = () => authTab(false);
+    $('#registerTab').onclick = () => authTab(true);
+    $('#logoutBtn').onclick = signOut;
+    $('#roleSelect').onchange = () => {
+      $('#roleSelect').value = roleName(currentProfile.role);
+    };
+
+    $('#loginForm').onsubmit = async e => {
+      e.preventDefault();
+      const { error } = await supabaseClient.auth.signInWithPassword({
+        email: $('#loginEmail').value.trim(),
+        password: $('#loginPassword').value
+      });
+      if (error) show(error.message);
+    };
+
+    $('#registerForm').onsubmit = async e => {
+      e.preventDefault();
+      if ($('#registerPassword').value !== $('#registerConfirm').value) {
+        show('Passwords do not match');
+        return;
+      }
+
+      const { data, error } = await supabaseClient.auth.signUp({
+        email: $('#registerEmail').value.trim(),
+        password: $('#registerPassword').value,
+        options: {
+          data: { full_name: $('#registerName').value.trim() }
+        }
+      });
+
+      if (error) {
+        show(error.message);
+        return;
+      }
+
+      if (!data.session) {
+        authTab(false);
+        $('#loginEmail').value = $('#registerEmail').value.trim();
+        show('Account created. Check your email, then log in.');
+      } else {
+        await supabaseClient.auth.signOut();
+        authTab(false);
+        $('#loginEmail').value = $('#registerEmail').value.trim();
+        show('Requester account created successfully — please log in');
+      }
+    };
+
+    $('#forgotForm').onsubmit = async e => {
+      e.preventDefault();
+      const email = $('#forgotEmail').value.trim();
+      const { error } = await supabaseClient.auth.resetPasswordForEmail(email, {
+        redirectTo: window.location.origin + window.location.pathname
+      });
+      if (error) {
+        show(error.message);
+        return;
+      }
+      show('Password reset link sent to your email');
+      authTab(false);
+    };
+
+    $('#recoveryForm').onsubmit = async e => {
+      e.preventDefault();
+      const p1 = $('#recoveryPassword').value;
+      const p2 = $('#recoveryConfirm').value;
+      if (p1 !== p2) {
+        show('Passwords do not match');
+        return;
+      }
+      const { error } = await supabaseClient.auth.updateUser({ password: p1 });
+      if (error) {
+        show(error.message);
+        return;
+      }
+      show('Password updated successfully');
+      authTab(false);
+    };
+
+    $('#newRequest').onclick = () => $('#requestModal').classList.add('open');
+
+    document.querySelectorAll('[data-close]').forEach(b =>
+      b.onclick = () => b.closest('.modal').classList.remove('open')
+    );
+
+    document.querySelectorAll('.modal').forEach(m =>
+      m.onclick = e => { if (e.target === m) m.classList.remove('open'); }
+    );
+
+    $('#requestForm').onsubmit = createRequest;
+
+    document.addEventListener('click', e => {
+      const v = e.target.closest('[data-id]');
+      if (v) openDetail(v.dataset.id);
+      const a = e.target.closest('[data-action]');
+      if (a) workflow($('#detailContent').dataset.id, a.dataset.action);
+    });
+
+    supabaseClient.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        showRecovery();
+        return;
+      }
+      if (session && !currentProfile) {
+        try {
+          await initAuthenticated(session);
+        } catch (err) {
+          console.error(err);
+          show(err.message || 'Unable to load your profile');
+          await signOut();
+        }
+      } else if (!session) {
+        currentProfile = null;
+        $('.shell').classList.remove('authenticated');
+        $('#authScreen').style.display = 'grid';
+      }
+    });
+
+    (async function boot() {
+      $('#forgotLink').onclick = showForgot;
+      $('#registerHere').onclick = () => authTab(true);
+      $('#registerBack').onclick = () => authTab(false);
+      $('#backToLogin').onclick = () => authTab(false);
+
+      $('#registerCommittee').closest('.field').remove();
+      $('#registerForm').querySelector('button[type="submit"]').textContent = 'Create requester account';
+
+      const { data: { session } } = await supabaseClient.auth.getSession();
+      if (session) {
+        try {
+          await initAuthenticated(session);
+        } catch (err) {
+          console.error(err);
+          await signOut();
+          show(err.message || 'Unable to load your profile');
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

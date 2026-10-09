@@ -1,0 +1,4 @@
+database/liquidation.db
+database/liquidation.db-shm
+database/liquidation.db-wal
+node_modules/
