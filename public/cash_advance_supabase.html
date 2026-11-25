@@ -107,7 +107,7 @@
       </div>
     </main>
   </div>
-  <div class="modal" id="requestModal"><div class="modal-box"><div class="modal-head"><h2>New cash advance request</h2><button class="close" data-close>×</button></div><form class="form" id="requestForm"><div class="field"><label>Requester name</label><input name="name" placeholder="e.g. Maria Santos" required /></div><div class="field"><label>Amount (PHP)</label><input name="amount" type="number" min="1" placeholder="0.00" required /></div><div class="field full"><label>Purpose / activity</label><input name="purpose" placeholder="e.g. Youth conference transportation" required /></div><div class="field"><label>Needed by</label><input name="needed" type="date" required /></div><div class="field"><label>Fund / ministry</label><select name="fund"><option>General Fund</option><option>Mission Fund</option><option>Youth Ministry</option><option>Outreach</option></select></div><div class="field full"><label>Notes (optional)</label><textarea name="notes" rows="3" placeholder="Additional details for the approvers"></textarea></div><div class="form-actions"><button type="button" class="outline" data-close>Cancel</button><button type="submit" class="primary">Submit for approval</button></div></form></div></div>
+  <div class="modal" id="requestModal"><div class="modal-box"><div class="modal-head"><h2>New cash advance request</h2><button class="close" data-close>×</button></div><form class="form" id="requestForm"><div class="field"><label>Requester name</label><input name="name" placeholder="e.g. Maria Santos" required /></div><div class="field"><label>Amount (PHP)</label><input name="amount" type="number" min="1" placeholder="0.00" required /></div><div class="field full"><label>Purpose / activity</label><input name="purpose" placeholder="e.g. Youth conference transportation" required /></div><div class="field full"><label>Particulars *</label><div style="display:flex;gap:16px;flex-wrap:wrap;padding:8px 0"><label style="font-weight:400"><input type="checkbox" name="particulars" value="Food Expenses"> Food Expenses</label><label style="font-weight:400"><input type="checkbox" name="particulars" value="Travel Expenses"> Travel Expenses</label><label style="font-weight:400"><input type="checkbox" name="particulars" value="Office Supplies"> Office Supplies</label><label style="font-weight:400"><input type="checkbox" name="particulars" value="Others"> Others</label></div></div><div class="field"><label>Needed by</label><input name="needed" type="date" required /></div><div class="field"><label>Fund / ministry</label><select name="fund" required><option value="">Select fund / ministry</option><option>General Fund</option><option>Mission Fund</option><option>Youth Ministry</option><option>Outreach</option></select></div><div class="field full"><label>Notes (optional)</label><textarea name="notes" rows="3" placeholder="Additional details for the approvers"></textarea></div><div class="form-actions"><button type="button" class="outline" data-close>Cancel</button><button type="submit" class="primary">Submit for approval</button></div></form></div></div>
   <div class="modal" id="detailModal"><div class="modal-box"><div class="modal-head"><h2 id="detailTitle">Request details</h2><button class="close" data-close>×</button></div><div class="detail" id="detailContent"></div><div style="padding:0 23px 22px;display:grid;gap:10px">
     <div><label style="font-size:12px;font-weight:700;display:block;margin-bottom:6px">Liquidation report *</label><input id="liquidationReport" type="file" accept=".pdf,image/*" /></div>
     <div><label style="font-size:12px;font-weight:700;display:block;margin-bottom:6px">Receipts *</label><input id="receiptFiles" type="file" multiple accept="image/*,.pdf" /></div>
@@ -117,6 +117,8 @@
   <div class="toast" id="toast"></div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+    const APP_MODE = new URLSearchParams(window.location.search).get('mode') || 'requester';
+    const IS_REQUESTER_PORTAL = APP_MODE === 'requester';
     const SUPABASE_URL = 'https://rqvmvdplgordyjgvrhzj.supabase.co';
     const SUPABASE_PUBLISHABLE_KEY = 'sb_publishable_I4gfCY247UeVMhTTlV8K5w_dPQsxmXy';
     const supabaseClient = window.supabase.createClient(
@@ -196,6 +198,15 @@
       $('#roleSelect').disabled = true;
       $('#loggedInUser').textContent = displayName;
       $('.avatar').textContent = displayName.split(' ').map(x => x[0]).slice(0, 2).join('').toUpperCase();
+    }
+
+    function assertPortalRole() {
+      const isRequester = currentProfile.role === 'requester';
+      if ((IS_REQUESTER_PORTAL && !isRequester) || (!IS_REQUESTER_PORTAL && isRequester)) {
+        throw new Error(IS_REQUESTER_PORTAL
+          ? 'This online portal is for Requesters only. Use the local staff portal.'
+          : 'This local portal is for Financial Secretary and Treasurer accounts only.');
+      }
     }
 
     function authTab(register) {
@@ -581,7 +592,13 @@
       }
 
       const f = new FormData(e.target);
-      const choices = [...document.querySelectorAll('input[name="particulars"]:checked')].map(x => x.value);
+      const purpose = String(f.get('purpose') || '').trim();
+      const fund = String(f.get('fund') || '').trim();
+      const choices = [...e.target.querySelectorAll('input[name="particulars"]:checked')].map(x => x.value);
+      if (!purpose || !fund) {
+        show('Please complete the purpose and fund fields');
+        return;
+      }
       if (!choices.length) {
         show('Please select at least one Particulars option');
         return;
@@ -593,12 +610,12 @@
           reference_no: newReference(),
           requester_id: currentUser.id,
           requester_name: f.get('name'),
-          requester_email: f.get('email'),
-          position: f.get('position') || null,
-          account_title: f.get('account'),
-          account_title_other: f.get('account') === 'Others' ? f.get('otherAccount') : null,
-          particulars: choices,
-          particulars_other: f.get('particularsOther') || null,
+          requester_email: currentUser.email,
+          position: null,
+          account_title: fund,
+          account_title_other: null,
+          particulars: [purpose, ...choices],
+          particulars_other: null,
           amount: Number(f.get('amount')),
           needed_by: f.get('needed'),
           notes: f.get('notes') || null,
@@ -632,6 +649,7 @@
     async function initAuthenticated(session) {
       currentUser = session.user;
       await loadProfile();
+      assertPortalRole();
       await loadData();
       $('#authScreen').style.display = 'none';
       $('.shell').classList.add('authenticated');
@@ -765,6 +783,12 @@
 
       $('#registerCommittee').closest('.field').remove();
       $('#registerForm').querySelector('button[type="submit"]').textContent = 'Create requester account';
+      if (!IS_REQUESTER_PORTAL) {
+        $('#registerTab').style.display = 'none';
+        $('#registerHere').style.display = 'none';
+        $('#authTitle').textContent = 'Staff portal login';
+        $('#authSubtitle').textContent = 'Financial Secretary and Treasurer access only.';
+      }
 
       const { data: { session } } = await supabaseClient.auth.getSession();
       if (session) {

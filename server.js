@@ -6,6 +6,8 @@ const { URL } = require('node:url');
 const { DatabaseSync } = require('node:sqlite');
 
 const PORT = Number(process.env.PORT || 3000);
+const PORTAL_MODE = process.env.PORTAL_MODE === 'staff' ? 'staff' : 'requester';
+const PORTAL_ENTRY = PORTAL_MODE === 'staff' ? '/staff.html' : '/requester.html';
 const ROOT = __dirname;
 const PUBLIC_ROOT = path.join(ROOT, 'public');
 const DATABASE_ROOT = path.join(ROOT, 'database');
@@ -109,7 +111,22 @@ const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, `http://${req.headers.host || 'localhost'}`);
   if (url.pathname.startsWith('/api/')) return api(req, res, url);
   if (req.method !== 'GET' && req.method !== 'HEAD') return json(res, 405, {error: 'Method not allowed.'});
-  const requested = url.pathname === '/' ? '/cash_advance_supabase.html' : url.pathname;
+  if (url.pathname === '/' || url.pathname === '/index.html') {
+    res.writeHead(302, {Location: PORTAL_ENTRY});
+    return res.end();
+  }
+  if ((PORTAL_MODE === 'requester' && url.pathname === '/staff.html') ||
+      (PORTAL_MODE === 'staff' && url.pathname === '/requester.html')) {
+    res.writeHead(403, {'Content-Type': 'text/plain; charset=utf-8'});
+    return res.end('This portal is not available on this server.');
+  }
+  const requested = url.pathname === '/cash_advance_supabase.html'
+    ? '/cash_advance_supabase.html'
+    : url.pathname;
+  if (requested === '/cash_advance_supabase.html' && url.searchParams.get('mode') !== PORTAL_MODE) {
+    res.writeHead(302, {Location: `/cash_advance_supabase.html?mode=${PORTAL_MODE}`});
+    return res.end();
+  }
   const file = path.resolve(PUBLIC_ROOT, `.${requested}`);
   if (!file.startsWith(PUBLIC_ROOT + path.sep) || !fs.existsSync(file)) return json(res, 404, {error: 'File not found.'});
   const types = {'.html':'text/html; charset=utf-8','.css':'text/css; charset=utf-8','.js':'text/javascript; charset=utf-8','.json':'application/json'};
