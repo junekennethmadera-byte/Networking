@@ -1,0 +1,221 @@
+{
+  "communities": {
+    "0": [
+      "ref_node_crypto",
+      "ref_node_fs",
+      "ref_node_http",
+      "ref_node_path",
+      "ref_node_sqlite",
+      "ref_node_url",
+      "repo::server",
+      "repo::server_crypto",
+      "repo::server_database_root",
+      "repo::server_databasesync",
+      "repo::server_db",
+      "repo::server_fs",
+      "repo::server_hash",
+      "repo::server_http",
+      "repo::server_id",
+      "repo::server_path",
+      "repo::server_port",
+      "repo::server_public_root",
+      "repo::server_url"
+    ],
+    "1": [
+      "repo::package",
+      "repo::package_description",
+      "repo::package_engines",
+      "repo::package_engines_node",
+      "repo::package_main",
+      "repo::package_name",
+      "repo::package_private",
+      "repo::package_scripts",
+      "repo::package_scripts_dev",
+      "repo::package_scripts_start",
+      "repo::package_version"
+    ],
+    "2": [
+      "repo::server_api",
+      "repo::server_body",
+      "repo::server_json",
+      "repo::server_nextreference",
+      "repo::server_safeuser",
+      "repo::server_server"
+    ],
+    "3": [
+      "repo-2::audit_logs",
+      "repo-2::liquidation_frontend",
+      "repo-2::profile_loading",
+      "repo-2::request_creation",
+      "repo-2::requester_portal",
+      "repo-2::staff_portal",
+      "repo-2::supabase_auth",
+      "repo-2::supabase_data_loading"
+    ],
+    "4": [
+      "repo-2::liquidation_workflow",
+      "repo-2::reference_trigger",
+      "repo-2::requester_role",
+      "repo-2::requests_table",
+      "repo-2::treasurer_role"
+    ],
+    "5": [
+      "repo-2::profile_trigger",
+      "repo-2::profiles_table",
+      "repo-2::roles",
+      "repo-2::row_level_security",
+      "repo-2::storage"
+    ],
+    "6": [
+      "repo-2::finsec_role",
+      "repo-2::liquidation_files",
+      "repo-2::liquidations_table",
+      "repo-2::workflow_actions"
+    ]
+  },
+  "cohesion": {
+    "0": 0.10526315789473684,
+    "1": 0.18181818181818182,
+    "2": 0.4,
+    "3": 0.25,
+    "4": 0.4,
+    "5": 0.4,
+    "6": 0.5
+  },
+  "gods": [
+    {
+      "id": "repo-2::liquidation_frontend",
+      "label": "Liquidation Flow Frontend",
+      "degree": 13
+    },
+    {
+      "id": "repo-2::requests_table",
+      "label": "Cash Advance Requests Table",
+      "degree": 9
+    },
+    {
+      "id": "repo::server_api",
+      "label": "api()",
+      "degree": 6
+    },
+    {
+      "id": "repo-2::liquidations_table",
+      "label": "Liquidations Table",
+      "degree": 6
+    },
+    {
+      "id": "repo-2::profiles_table",
+      "label": "Profiles Table",
+      "degree": 5
+    },
+    {
+      "id": "repo-2::row_level_security",
+      "label": "Row Level Security",
+      "degree": 4
+    },
+    {
+      "id": "repo::server_json",
+      "label": "json()",
+      "degree": 3
+    },
+    {
+      "id": "repo::server_server",
+      "label": "server",
+      "degree": 3
+    },
+    {
+      "id": "repo::package_scripts",
+      "label": "scripts",
+      "degree": 3
+    },
+    {
+      "id": "repo-2::workflow_actions",
+      "label": "Workflow Actions",
+      "degree": 3
+    }
+  ],
+  "surprises": [
+    {
+      "source": "Liquidation Flow Frontend",
+      "target": "Liquidation Files Table",
+      "source_files": [
+        "public/cash_advance_supabase.html",
+        "database/supabase_schema.sql"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "shares_data_with",
+      "why": "crosses file types (doc ↔ code); connects across different repos/directories; bridges separate communities; peripheral node `Liquidation Files Table` unexpectedly reaches hub `Liquidation Flow Frontend`"
+    },
+    {
+      "source": "Liquidation Flow Frontend",
+      "target": "Cash Advance Documents Storage",
+      "source_files": [
+        "public/cash_advance_supabase.html",
+        "database/supabase_schema.sql"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "crosses file types (doc ↔ code); connects across different repos/directories; bridges separate communities; peripheral node `Cash Advance Documents Storage` unexpectedly reaches hub `Liquidation Flow Frontend`"
+    },
+    {
+      "source": "Liquidation Flow Frontend",
+      "target": "Audit Logs Table",
+      "source_files": [
+        "public/cash_advance_supabase.html",
+        "database/supabase_schema.sql"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "crosses file types (doc ↔ code); connects across different repos/directories; peripheral node `Audit Logs Table` unexpectedly reaches hub `Liquidation Flow Frontend`"
+    },
+    {
+      "source": "Liquidation Flow Frontend",
+      "target": "Liquidations Table",
+      "source_files": [
+        "public/cash_advance_supabase.html",
+        "database/supabase_schema.sql"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "shares_data_with",
+      "why": "crosses file types (doc ↔ code); connects across different repos/directories; bridges separate communities"
+    },
+    {
+      "source": "Liquidation Flow Frontend",
+      "target": "Profiles Table",
+      "source_files": [
+        "public/cash_advance_supabase.html",
+        "database/supabase_schema.sql"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "shares_data_with",
+      "why": "crosses file types (doc ↔ code); connects across different repos/directories; bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `Liquidation Flow Frontend` connect `Liquidation Flow Frontend` to `Cash Advance Requests Table`, `Profiles Table`, `Liquidations Table`?",
+      "why": "High betweenness centrality (0.085) - this node is a cross-community bridge."
+    },
+    {
+      "type": "isolated_nodes",
+      "question": "What connects `Requester Portal`, `Staff Portal`, `Supabase Authentication` to the rest of the system?",
+      "why": "13 weakly-connected nodes found - possible documentation gaps or missing edges."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `server.js` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.10526315789473684 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Cash Advance Requests Table` connect `Cash Advance Requests Table` to `Liquidation Flow Frontend`, `Profiles Table`, `Liquidations Table`?",
+      "why": "High betweenness centrality (0.050) - this node is a cross-community bridge."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `Profiles Table` connect `Profiles Table` to `Liquidation Flow Frontend`, `Cash Advance Requests Table`?",
+      "why": "High betweenness centrality (0.026) - this node is a cross-community bridge."
+    }
+  ]
+}

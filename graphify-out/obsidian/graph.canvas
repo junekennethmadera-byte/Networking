@@ -1,0 +1,1012 @@
+{
+  "nodes": [
+    {
+      "id": "g0",
+      "type": "group",
+      "label": "server.js",
+      "x": 0,
+      "y": 0,
+      "width": 1100,
+      "height": 520,
+      "color": "1"
+    },
+    {
+      "id": "n_repo::server_database_root",
+      "type": "file",
+      "file": "DATABASE_ROOT.md",
+      "x": 20,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_port",
+      "type": "file",
+      "file": "PORT.md",
+      "x": 220,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_public_root",
+      "type": "file",
+      "file": "PUBLIC_ROOT.md",
+      "x": 420,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_crypto",
+      "type": "file",
+      "file": "crypto.md",
+      "x": 620,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_db",
+      "type": "file",
+      "file": "db.md",
+      "x": 820,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_fs",
+      "type": "file",
+      "file": "fs.md",
+      "x": 20,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_hash",
+      "type": "file",
+      "file": "hash().md",
+      "x": 220,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_http",
+      "type": "file",
+      "file": "http.md",
+      "x": 420,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_id",
+      "type": "file",
+      "file": "id().md",
+      "x": 620,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_path",
+      "type": "file",
+      "file": "path.md",
+      "x": 820,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_ref_node_crypto",
+      "type": "file",
+      "file": "ref_node_crypto.md",
+      "x": 20,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_ref_node_fs",
+      "type": "file",
+      "file": "ref_node_fs.md",
+      "x": 220,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_ref_node_http",
+      "type": "file",
+      "file": "ref_node_http.md",
+      "x": 420,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_ref_node_path",
+      "type": "file",
+      "file": "ref_node_path.md",
+      "x": 620,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_ref_node_sqlite",
+      "type": "file",
+      "file": "ref_node_sqlite.md",
+      "x": 820,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_ref_node_url",
+      "type": "file",
+      "file": "ref_node_url.md",
+      "x": 20,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server",
+      "type": "file",
+      "file": "server.js.md",
+      "x": 220,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_databasesync",
+      "type": "file",
+      "file": "{ DatabaseSync }.md",
+      "x": 420,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_url",
+      "type": "file",
+      "file": "{ URL }.md",
+      "x": 620,
+      "y": 320,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g1",
+      "type": "group",
+      "label": "package.json",
+      "x": 1180,
+      "y": 0,
+      "width": 880,
+      "height": 420,
+      "color": "2"
+    },
+    {
+      "id": "n_repo::package_description",
+      "type": "file",
+      "file": "description.md",
+      "x": 1200,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::package_scripts_dev",
+      "type": "file",
+      "file": "dev.md",
+      "x": 1400,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::package_engines",
+      "type": "file",
+      "file": "engines.md",
+      "x": 1600,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::package_main",
+      "type": "file",
+      "file": "main.md",
+      "x": 1800,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::package_name",
+      "type": "file",
+      "file": "name.md",
+      "x": 1200,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::package_engines_node",
+      "type": "file",
+      "file": "node.md",
+      "x": 1400,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::package",
+      "type": "file",
+      "file": "package.json.md",
+      "x": 1600,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::package_private",
+      "type": "file",
+      "file": "private.md",
+      "x": 1800,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::package_scripts",
+      "type": "file",
+      "file": "scripts.md",
+      "x": 1200,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::package_scripts_start",
+      "type": "file",
+      "file": "start.md",
+      "x": 1400,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::package_version",
+      "type": "file",
+      "file": "version.md",
+      "x": 1600,
+      "y": 240,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g2",
+      "type": "group",
+      "label": "api",
+      "x": 2140,
+      "y": 0,
+      "width": 660,
+      "height": 400,
+      "color": "3"
+    },
+    {
+      "id": "n_repo::server_api",
+      "type": "file",
+      "file": "api().md",
+      "x": 2160,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_body",
+      "type": "file",
+      "file": "body().md",
+      "x": 2360,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_json",
+      "type": "file",
+      "file": "json().md",
+      "x": 2560,
+      "y": 80,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_nextreference",
+      "type": "file",
+      "file": "nextReference().md",
+      "x": 2160,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_safeuser",
+      "type": "file",
+      "file": "safeUser().md",
+      "x": 2360,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo::server_server",
+      "type": "file",
+      "file": "server.md",
+      "x": 2560,
+      "y": 160,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g3",
+      "type": "group",
+      "label": "Liquidation Flow Frontend",
+      "x": 0,
+      "y": 600,
+      "width": 660,
+      "height": 420,
+      "color": "4"
+    },
+    {
+      "id": "n_repo-2::audit_logs",
+      "type": "file",
+      "file": "Audit Logs Table.md",
+      "x": 20,
+      "y": 680,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::request_creation",
+      "type": "file",
+      "file": "Cash Advance Request Creation.md",
+      "x": 220,
+      "y": 680,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::liquidation_frontend",
+      "type": "file",
+      "file": "Liquidation Flow Frontend.md",
+      "x": 420,
+      "y": 680,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::profile_loading",
+      "type": "file",
+      "file": "Profile Loading.md",
+      "x": 20,
+      "y": 760,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::requester_portal",
+      "type": "file",
+      "file": "Requester Portal.md",
+      "x": 220,
+      "y": 760,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::staff_portal",
+      "type": "file",
+      "file": "Staff Portal.md",
+      "x": 420,
+      "y": 760,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::supabase_auth",
+      "type": "file",
+      "file": "Supabase Authentication.md",
+      "x": 20,
+      "y": 840,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::supabase_data_loading",
+      "type": "file",
+      "file": "Supabase Data Loading.md",
+      "x": 220,
+      "y": 840,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g4",
+      "type": "group",
+      "label": "Cash Advance Requests Table",
+      "x": 1180,
+      "y": 600,
+      "width": 660,
+      "height": 400,
+      "color": "5"
+    },
+    {
+      "id": "n_repo-2::liquidation_workflow",
+      "type": "file",
+      "file": "Cash Advance Liquidation Workflow.md",
+      "x": 1200,
+      "y": 680,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::reference_trigger",
+      "type": "file",
+      "file": "Cash Advance Reference Generation.md",
+      "x": 1400,
+      "y": 680,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::requests_table",
+      "type": "file",
+      "file": "Cash Advance Requests Table.md",
+      "x": 1600,
+      "y": 680,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::requester_role",
+      "type": "file",
+      "file": "Requester Role.md",
+      "x": 1200,
+      "y": 760,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::treasurer_role",
+      "type": "file",
+      "file": "Treasurer Role.md",
+      "x": 1400,
+      "y": 760,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g5",
+      "type": "group",
+      "label": "Profiles Table",
+      "x": 2140,
+      "y": 600,
+      "width": 660,
+      "height": 400,
+      "color": "6"
+    },
+    {
+      "id": "n_repo-2::roles",
+      "type": "file",
+      "file": "Application Roles.md",
+      "x": 2160,
+      "y": 680,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::profile_trigger",
+      "type": "file",
+      "file": "Automatic Profile Provisioning.md",
+      "x": 2360,
+      "y": 680,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::storage",
+      "type": "file",
+      "file": "Cash Advance Documents Storage.md",
+      "x": 2560,
+      "y": 680,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::profiles_table",
+      "type": "file",
+      "file": "Profiles Table.md",
+      "x": 2160,
+      "y": 760,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::row_level_security",
+      "type": "file",
+      "file": "Row Level Security.md",
+      "x": 2360,
+      "y": 760,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "g6",
+      "type": "group",
+      "label": "Liquidations Table",
+      "x": 0,
+      "y": 1100,
+      "width": 600,
+      "height": 400,
+      "color": "1"
+    },
+    {
+      "id": "n_repo-2::finsec_role",
+      "type": "file",
+      "file": "Financial Secretary Role.md",
+      "x": 20,
+      "y": 1180,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::liquidation_files",
+      "type": "file",
+      "file": "Liquidation Files Table.md",
+      "x": 220,
+      "y": 1180,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::liquidations_table",
+      "type": "file",
+      "file": "Liquidations Table.md",
+      "x": 20,
+      "y": 1260,
+      "width": 180,
+      "height": 60
+    },
+    {
+      "id": "n_repo-2::workflow_actions",
+      "type": "file",
+      "file": "Workflow Actions.md",
+      "x": 220,
+      "y": 1260,
+      "width": 180,
+      "height": 60
+    }
+  ],
+  "edges": [
+    {
+      "id": "e_repo::server_repo::server_hash",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_hash",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_id",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_id",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_api_repo::server_nextreference",
+      "fromNode": "n_repo::server_api",
+      "toNode": "n_repo::server_nextreference",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_api_repo::server_json",
+      "fromNode": "n_repo::server_api",
+      "toNode": "n_repo::server_json",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_api_repo::server_body",
+      "fromNode": "n_repo::server_api",
+      "toNode": "n_repo::server_body",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_api_repo::server_safeuser",
+      "fromNode": "n_repo::server_api",
+      "toNode": "n_repo::server_safeuser",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_server_repo::server_api",
+      "fromNode": "n_repo::server_server",
+      "toNode": "n_repo::server_api",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_api",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_api",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_body",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_body",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_server_repo::server_json",
+      "fromNode": "n_repo::server_server",
+      "toNode": "n_repo::server_json",
+      "label": "calls [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_json",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_json",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_nextreference",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_nextreference",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_safeuser",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_safeuser",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_ref_node_http",
+      "fromNode": "n_repo::server",
+      "toNode": "n_ref_node_http",
+      "label": "imports_from [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_ref_node_fs",
+      "fromNode": "n_repo::server",
+      "toNode": "n_ref_node_fs",
+      "label": "imports_from [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_ref_node_path",
+      "fromNode": "n_repo::server",
+      "toNode": "n_ref_node_path",
+      "label": "imports_from [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_ref_node_crypto",
+      "fromNode": "n_repo::server",
+      "toNode": "n_ref_node_crypto",
+      "label": "imports_from [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_ref_node_url",
+      "fromNode": "n_repo::server",
+      "toNode": "n_ref_node_url",
+      "label": "imports_from [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_ref_node_sqlite",
+      "fromNode": "n_repo::server",
+      "toNode": "n_ref_node_sqlite",
+      "label": "imports_from [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_http",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_http",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_server",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_server",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_public_root",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_public_root",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_database_root",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_database_root",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_db",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_db",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_fs",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_fs",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_path",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_path",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_crypto",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_crypto",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_url",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_url",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_databasesync",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_databasesync",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::server_repo::server_port",
+      "fromNode": "n_repo::server",
+      "toNode": "n_repo::server_port",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::package_repo::package_engines",
+      "fromNode": "n_repo::package",
+      "toNode": "n_repo::package_engines",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::package_repo::package_name",
+      "fromNode": "n_repo::package",
+      "toNode": "n_repo::package_name",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::package_repo::package_version",
+      "fromNode": "n_repo::package",
+      "toNode": "n_repo::package_version",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::package_repo::package_private",
+      "fromNode": "n_repo::package",
+      "toNode": "n_repo::package_private",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::package_repo::package_description",
+      "fromNode": "n_repo::package",
+      "toNode": "n_repo::package_description",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::package_repo::package_main",
+      "fromNode": "n_repo::package",
+      "toNode": "n_repo::package_main",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::package_repo::package_scripts",
+      "fromNode": "n_repo::package",
+      "toNode": "n_repo::package_scripts",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::package_engines_repo::package_engines_node",
+      "fromNode": "n_repo::package_engines",
+      "toNode": "n_repo::package_engines_node",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::package_scripts_repo::package_scripts_start",
+      "fromNode": "n_repo::package_scripts",
+      "toNode": "n_repo::package_scripts_start",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo::package_scripts_repo::package_scripts_dev",
+      "fromNode": "n_repo::package_scripts",
+      "toNode": "n_repo::package_scripts_dev",
+      "label": "contains [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidation_frontend_repo-2::audit_logs",
+      "fromNode": "n_repo-2::liquidation_frontend",
+      "toNode": "n_repo-2::audit_logs",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidation_frontend_repo-2::profile_loading",
+      "fromNode": "n_repo-2::liquidation_frontend",
+      "toNode": "n_repo-2::profile_loading",
+      "label": "implements [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidation_frontend_repo-2::request_creation",
+      "fromNode": "n_repo-2::liquidation_frontend",
+      "toNode": "n_repo-2::request_creation",
+      "label": "implements [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidation_frontend_repo-2::supabase_auth",
+      "fromNode": "n_repo-2::liquidation_frontend",
+      "toNode": "n_repo-2::supabase_auth",
+      "label": "implements [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidation_frontend_repo-2::supabase_data_loading",
+      "fromNode": "n_repo-2::liquidation_frontend",
+      "toNode": "n_repo-2::supabase_data_loading",
+      "label": "implements [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidation_frontend_repo-2::workflow_actions",
+      "fromNode": "n_repo-2::liquidation_frontend",
+      "toNode": "n_repo-2::workflow_actions",
+      "label": "implements [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidation_frontend_repo-2::storage",
+      "fromNode": "n_repo-2::liquidation_frontend",
+      "toNode": "n_repo-2::storage",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::requester_portal_repo-2::liquidation_frontend",
+      "fromNode": "n_repo-2::requester_portal",
+      "toNode": "n_repo-2::liquidation_frontend",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::staff_portal_repo-2::liquidation_frontend",
+      "fromNode": "n_repo-2::staff_portal",
+      "toNode": "n_repo-2::liquidation_frontend",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidation_frontend_repo-2::profiles_table",
+      "fromNode": "n_repo-2::liquidation_frontend",
+      "toNode": "n_repo-2::profiles_table",
+      "label": "shares_data_with [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidation_frontend_repo-2::liquidations_table",
+      "fromNode": "n_repo-2::liquidation_frontend",
+      "toNode": "n_repo-2::liquidations_table",
+      "label": "shares_data_with [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidation_frontend_repo-2::requests_table",
+      "fromNode": "n_repo-2::liquidation_frontend",
+      "toNode": "n_repo-2::requests_table",
+      "label": "shares_data_with [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidation_frontend_repo-2::liquidation_files",
+      "fromNode": "n_repo-2::liquidation_frontend",
+      "toNode": "n_repo-2::liquidation_files",
+      "label": "shares_data_with [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidation_workflow_repo-2::requests_table",
+      "fromNode": "n_repo-2::liquidation_workflow",
+      "toNode": "n_repo-2::requests_table",
+      "label": "describes [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::treasurer_role_repo-2::requests_table",
+      "fromNode": "n_repo-2::treasurer_role",
+      "toNode": "n_repo-2::requests_table",
+      "label": "disburses [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::reference_trigger_repo-2::requests_table",
+      "fromNode": "n_repo-2::reference_trigger",
+      "toNode": "n_repo-2::requests_table",
+      "label": "generates_for [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::requester_role_repo-2::requests_table",
+      "fromNode": "n_repo-2::requester_role",
+      "toNode": "n_repo-2::requests_table",
+      "label": "participates_in [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::row_level_security_repo-2::requests_table",
+      "fromNode": "n_repo-2::row_level_security",
+      "toNode": "n_repo-2::requests_table",
+      "label": "protects [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidations_table_repo-2::requests_table",
+      "fromNode": "n_repo-2::liquidations_table",
+      "toNode": "n_repo-2::requests_table",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::workflow_actions_repo-2::requests_table",
+      "fromNode": "n_repo-2::workflow_actions",
+      "toNode": "n_repo-2::requests_table",
+      "label": "updates [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::requests_table_repo-2::profiles_table",
+      "fromNode": "n_repo-2::requests_table",
+      "toNode": "n_repo-2::profiles_table",
+      "label": "references [INFERRED]"
+    },
+    {
+      "id": "e_repo-2::profiles_table_repo-2::roles",
+      "fromNode": "n_repo-2::profiles_table",
+      "toNode": "n_repo-2::roles",
+      "label": "implements [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::row_level_security_repo-2::profiles_table",
+      "fromNode": "n_repo-2::row_level_security",
+      "toNode": "n_repo-2::profiles_table",
+      "label": "protects [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::profile_trigger_repo-2::profiles_table",
+      "fromNode": "n_repo-2::profile_trigger",
+      "toNode": "n_repo-2::profiles_table",
+      "label": "provisions [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::row_level_security_repo-2::liquidations_table",
+      "fromNode": "n_repo-2::row_level_security",
+      "toNode": "n_repo-2::liquidations_table",
+      "label": "protects [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::row_level_security_repo-2::storage",
+      "fromNode": "n_repo-2::row_level_security",
+      "toNode": "n_repo-2::storage",
+      "label": "protects [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::liquidation_files_repo-2::liquidations_table",
+      "fromNode": "n_repo-2::liquidation_files",
+      "toNode": "n_repo-2::liquidations_table",
+      "label": "references [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::finsec_role_repo-2::liquidations_table",
+      "fromNode": "n_repo-2::finsec_role",
+      "toNode": "n_repo-2::liquidations_table",
+      "label": "approves [EXTRACTED]"
+    },
+    {
+      "id": "e_repo-2::workflow_actions_repo-2::liquidations_table",
+      "fromNode": "n_repo-2::workflow_actions",
+      "toNode": "n_repo-2::liquidations_table",
+      "label": "updates [EXTRACTED]"
+    }
+  ]
+}
